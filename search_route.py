@@ -1,4 +1,5 @@
 from db_access import (
+    meta_search,
     date_search,
     user_search
 )
@@ -93,7 +94,7 @@ def page_entries(entries):
             invalid_input()
 
 
-def search_records(get_value, search):
+def search_records(get_value, search, column):
     """Locate matching records.
 
     :param get_value: object containing user's input
@@ -101,7 +102,7 @@ def search_records(get_value, search):
     :return: None
     """
     user_input = get_value()
-    entries = search(user_input)  
+    entries = search(column, user_input)  
 
     if not entries:
         print("Not found!\n")
@@ -122,7 +123,7 @@ def search_route():
         clear_screen()
 
         if choice == 'a':
-            search_records(get_date, date_search)
+            search_records(get_date, meta_search, 'date')
         elif choice == 'b':
             search_records(get_date_range, date_range_search)
         elif choice == 'c':

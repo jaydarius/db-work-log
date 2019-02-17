@@ -1,5 +1,9 @@
 from db_config import Entry
 
+def meta_search(column, search):
+    entries = Entry.select().order_by(Entry.date.desc()).where(Entry.column.contains(search))
+    return entries
+
 def date_search(search):
     """Search the DB for all entries that match a date.
 
