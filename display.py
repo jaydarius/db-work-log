@@ -1,20 +1,13 @@
 import os
 
 
-def main_menu():
-    print("== WORK LOG==\n"
-          "What would you like to do?\n"
-          "a) Add new entry\n"
-          "b) Search existing entries\n"
-          "c) Quit program\n")
-
 def search_menu():
     print("== SEARCH MENU ==\n"
           "Do you want to search by:\n"
           "a) Exact Date\n"
           "b) Range of Dates\n"  
           "c) Exact Search\n"
-          "d) Regex Pattern\n"
+          "d) Employee\n"
           "e) Time Spent\n"
           "f) Return to Main Menu\n")
 
@@ -46,6 +39,7 @@ def page_menu(index, records):
 
 
 def print_entry(entry):
+    print(entry.user)
     print(entry.date)
     print(entry.title)
     print(entry.time_spent)

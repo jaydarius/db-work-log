@@ -7,7 +7,7 @@ from display import pause, clear_screen
 def get_user():
     while True:
         try: 
-            print("What is your name?\n")
+            print("Employee name\n")
             user = input("> ")
             if len(user) == 0:
                 raise NameError("Please enter a valid keyword.")
@@ -138,22 +138,6 @@ def get_keyword():
             clear_screen()
             continue
 
-def get_regex():
-    """Ask the user to add RegEx and return it in a string"""
-
-    while True:
-        try: 
-            print("RegEx\n")
-            regex = input("> ")
-            if len(regex) == 0:
-                raise NameError("Please enter a valid RegEx.")
-            clear_screen()
-            return regex
-        except NameError as e:
-            print(e)
-            pause()
-            clear_screen()
-            continue
 
 
 

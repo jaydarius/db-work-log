@@ -5,7 +5,6 @@ from get_inputs import (
     get_time, 
     get_notes,
     get_keyword, 
-    get_regex
     )
 from csv_access import insert_record
 from display import clear_screen, pause

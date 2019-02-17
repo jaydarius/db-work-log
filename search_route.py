@@ -1,5 +1,6 @@
 from db_access import (
-    date_search
+    date_search,
+    user_search
 )
 from edit_route import edit_record
 from display import (
@@ -11,13 +12,13 @@ from display import (
     search_menu
 )                    
 from get_inputs import (
+    get_user,
     get_date,
     get_date_range, 
     get_title, 
     get_time, 
     get_notes, 
-    get_keyword, 
-    get_regex
+    get_keyword,
 )
 ### page_entries redux ######################
 def view_entries(search_query=None):
@@ -57,9 +58,11 @@ def page_entries(entries):
         entry = entries[index]
         clear_screen()
         print("Result {} out of {}".format(index+1, len(entries)))
+        print('='*10)
         print_entry(entry)
+        print('='*10)
         page_menu(index, entries)
-        user_choice = input("> ")
+        user_choice = input("\n> ")
 
         if user_choice == "n":
             if index == (len(entries) - 1):
@@ -125,7 +128,7 @@ def search_route():
         elif choice == 'c':
             search_records(get_keyword, keyword_search)
         elif choice == 'd':
-            search_records(get_regex, regex_search)
+            search_records(get_user, user_search)
         elif choice == 'e':
             search_records(get_time, time_search)
         elif choice == 'f':
