@@ -8,6 +8,7 @@ from get_inputs import (
     )
 from csv_access import insert_record
 from display import clear_screen, pause
+from db_config import Entry
 
 
 def add_entry(date, title, time_spent, notes):
@@ -21,18 +22,16 @@ def add_entry(date, title, time_spent, notes):
     :return: None
     """
     
-    record = {}
-    record.update([
-        ('date', date), 
-        ('title', title),
-        ('time_spent', time_spent),
-        ('notes', notes)])
-    insert_record(record, 'a')
+    Entry.create(
+        date=date, 
+        title=title, 
+        time_spent=time_spent,
+        notes=notes)
+    print("Entered!")
+
 
 def add_route():
-    """Prompt user for each record's key and add the values
-    as a dictionary to work-log.csv. Return None
-    """
+    """Add an entry"""
 
     date = get_date()
     title = get_title()
