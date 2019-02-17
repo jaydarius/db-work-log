@@ -3,6 +3,7 @@ from peewee import *
 db = SqliteDatabase('work-log.db')
 
 class Entry(Model):
+    user = TextField()
     date = TextField()
     title = TextField()
     time_spent = IntegerField(default=0)

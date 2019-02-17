@@ -4,6 +4,21 @@ from datetime import datetime, timedelta
 from display import pause, clear_screen
 
 
+def get_user():
+    while True:
+        try: 
+            print("What is your name?\n")
+            user = input("> ")
+            if len(user) == 0:
+                raise NameError("Please enter a valid keyword.")
+            clear_screen()
+            return user
+        except NameError as e:
+            print(e)
+            pause()
+            clear_screen()
+            continue
+
 def get_date():
     """Ask the user to add date and return it in a string"""
 

@@ -1,7 +1,6 @@
 from display import (
     pause,
     clear_screen,
-    print_record,
     edit_menu, 
     search_menu, 
     invalid_input

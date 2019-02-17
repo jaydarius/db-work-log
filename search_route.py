@@ -1,16 +1,9 @@
-from csv_access import (
-    insert_record,
-    open_csv,
-    date_search,
-    date_range_search,
-    keyword_search,
-    regex_search,
-    time_search,
-    del_record
+from db_access import (
+    date_search
 )
 from edit_route import edit_record
 from display import (
-    print_record,
+    print_entry,
     clear_screen,
     pause,
     invalid_input,
@@ -26,30 +19,50 @@ from get_inputs import (
     get_keyword, 
     get_regex
 )
+### page_entries redux ######################
+def view_entries(search_query=None):
+    entries = Entry.select().order_by(Entry.timestamp.desc())
 
-def page_records(records):
+    if search_query:
+        entries = entries.where(Entry.content.contains(search_query))
+    for entry in entries:
+        clear_screen()
+        print('='*10)
+        print_entries(entry)
+        print('\n'+'='*10)
+        print('a) next entry')
+        print('b) delete entry')
+        print('c) return to main menu')
+
+        next_action = input('> ').lower().strip()
+        if next_action == 'd':
+            break
+        elif next_action == 'b':
+            delete_entry(entry)
+
+#############################################
+
+def page_entries(entries):
     """Display each record with paging options.
 
-    :param records: list of records found with search criteria
+    :param entries: list of entries found with search criteria
     :return:None
     """
 
     index = 0
-    origin_csv = open_csv('work-log.csv')
     searching = True
     edited_record = None
     
     while searching:
-        record = records[index]
-
+        entry = entries[index]
         clear_screen()
-        print("Result {} out of {}".format(index+1, len(records)))
-        print_record(record)
-        page_menu(index, records)
+        print("Result {} out of {}".format(index+1, len(entries)))
+        print_entry(entry)
+        page_menu(index, entries)
         user_choice = input("> ")
 
         if user_choice == "n":
-            if index == (len(records) - 1):
+            if index == (len(entries) - 1):
                 print("\nCan't go forward!\n")
                 pause()
             else:
@@ -85,28 +98,19 @@ def search_records(get_value, search):
     :return: None
     """
     user_input = get_value()
-    records = search(user_input)  
+    entries = search(user_input)  
 
-    if not records:
+    if not entries:
         print("Not found!\n")
         pause()
     else:
-        page_records(records)
+        page_entries(entries)
 
 def search_route():
     """Search for record(s)"""
     searching = True
 
-    
-
     while searching:
-        if open_csv("work-log.csv") == False:
-            searching = False
-
-            print("Work log is empty! Please add a new entry.\n")
-            pause()
-            break
-            
         search_menu()
         
         choice = input("> ")

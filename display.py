@@ -45,11 +45,11 @@ def page_menu(index, records):
         print("[N]ext, [B]ack, [E]dit, [D]elete, [R]eturn to Search Menu")
 
 
-def print_record(record):
-    print(f"Date: {record['date']}\n"
-          f"Title: {record['title']}\n"
-          f"Time Spent: {record['time_spent']}\n"
-          f"Notes: {record['notes']}\n")
+def print_entry(entry):
+    print(entry.date)
+    print(entry.title)
+    print(entry.time_spent)
+    print(entry.notes)
 
 def invalid_input():
     print("\nNot a valid option!\n")
