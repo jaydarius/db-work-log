@@ -94,7 +94,7 @@ def page_entries(entries):
             invalid_input()
 
 
-def search_records(get_value, search, column):
+def search_records(get_value, search, column=None):
     """Locate matching records.
 
     :param get_value: object containing user's input
@@ -102,8 +102,8 @@ def search_records(get_value, search, column):
     :return: None
     """
     user_input = get_value()
-    entries = search(column, user_input)  
-
+    entries = search(user_input)  
+   
     if not entries:
         print("Not found!\n")
         pause()
@@ -123,9 +123,9 @@ def search_route():
         clear_screen()
 
         if choice == 'a':
-            search_records(get_date, meta_search, 'date')
+            search_records(get_date, date_search)
         elif choice == 'b':
-            search_records(get_date_range, date_range_search)
+            search_records(get_date_range, date_search)
         elif choice == 'c':
             search_records(get_keyword, keyword_search)
         elif choice == 'd':
