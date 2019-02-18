@@ -21,28 +21,7 @@ from get_inputs import (
     get_notes, 
     get_keyword,
 )
-### page_entries redux ######################
-def view_entries(search_query=None):
-    entries = Entry.select().order_by(Entry.timestamp.desc())
 
-    if search_query:
-        entries = entries.where(Entry.content.contains(search_query))
-    for entry in entries:
-        clear_screen()
-        print('='*10)
-        print_entries(entry)
-        print('\n'+'='*10)
-        print('a) next entry')
-        print('b) delete entry')
-        print('c) return to main menu')
-
-        next_action = input('> ').lower().strip()
-        if next_action == 'd':
-            break
-        elif next_action == 'b':
-            delete_entry(entry)
-
-#############################################
 
 def page_entries(entries):
     """Display each record with paging options.
