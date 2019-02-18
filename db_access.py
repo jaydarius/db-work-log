@@ -37,11 +37,9 @@ def keyword_search(search):
     """
 
     entries = []
-    for entry in Entry.select().order_by(Entry.date.desc()).where(Entry.title.contains(search)):
+    for entry in Entry.select().order_by(Entry.date.desc()).where(
+        (Entry.title.contains(search)) | (Entry.notes.contains(search))):
         entries.append(entry)
-    for entry in Entry.select().order_by(Entry.date.desc()).where(Entry.notes.contains(search)):
-        entries.append(entry)
-    
     return entries
 
 def time_search(search):
