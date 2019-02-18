@@ -1,7 +1,8 @@
 from db_access import (
     meta_search,
     date_search,
-    user_search
+    user_search,
+    keyword_search
 )
 from edit_route import edit_record
 from display import (
@@ -31,11 +32,12 @@ def page_entries(entries):
     """
 
     index = 0
-    searching = True
+    paging = True
     edited_record = None
     
-    while searching:
+    while paging:
         entry = entries[index]
+
         clear_screen()
         print("Result {} out of {}".format(index+1, len(entries)))
         print('='*10)
