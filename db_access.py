@@ -11,7 +11,7 @@ def date_search(search):
     :param search: a string or list containing user's search criteria
     :return: a list of the found entries
     """
-    
+
     if type(search) == list:
         entries = Entry.select().where(Entry.date.in_(search))
         return entries
@@ -44,6 +44,15 @@ def keyword_search(search):
     
     return entries
 
+def time_search(search):
+    """Search the DB for all entries that match time spent.
+
+    :param search: int containing user's search criteria
+    :return: a list of the found entries
+    """
+
+    entries = Entry.select().order_by(Entry.date.desc()).where(Entry.time_spent == (search))
+    return entries
 
 def date_range_search(search):
     """Search the csv for all records inside a date range.

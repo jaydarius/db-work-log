@@ -2,7 +2,8 @@ from db_access import (
     meta_search,
     date_search,
     user_search,
-    keyword_search
+    keyword_search,
+    time_search
 )
 from edit_route import edit_record
 from display import (

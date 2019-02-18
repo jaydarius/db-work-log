@@ -99,7 +99,7 @@ def get_title():
 def get_time():
     """Ask the user to add time spent and return it as an integer"""
     while True:
-        try:  #
+        try:  
             print("Minutes spent on the task (rounded)\n")
 
             time_spent = input("> ")
