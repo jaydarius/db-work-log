@@ -3,7 +3,8 @@ from db_access import (
     date_search,
     user_search,
     keyword_search,
-    time_search
+    time_search,
+    del_entry
 )
 from edit_route import edit_entry
 from display import (
@@ -38,6 +39,7 @@ def page_entries(entries):
     
     while paging:
         entry = entries[index]
+        entry_id = entry.id
 
         clear_screen()
         print("Result {} out of {}".format(index+1, len(entries)))
@@ -62,12 +64,12 @@ def page_entries(entries):
                 index -= 1
             continue
         elif user_choice == "e":
-            edit_entry(entry)
+            edit_entry(entry, entry_id)
             break
         elif user_choice == "d":
-            del_record(record)
+            del_entry(entry_id)
             clear_screen()
-            print(""""{}" log has been deleted!\n""".format(record['title']))       
+            print("""Entry has been deleted!\n""")      
             pause()
             break
         elif user_choice == "r":

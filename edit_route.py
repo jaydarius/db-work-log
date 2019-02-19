@@ -34,14 +34,14 @@ def edit_value(entry, entry_id, key, get_func, db_query):
     return entry
 
 
-def edit_entry(entry):
+def edit_entry(entry, entry_id):
     """Continously prompt user to edit entry.
 
     :param entry: Entry marked for editing
     :return: None
     """
 
-    entry_id = entry.id
+
     editing = True
 
     while editing:

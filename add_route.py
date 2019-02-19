@@ -6,7 +6,7 @@ from get_inputs import (
     get_notes,
     get_keyword, 
     )
-from csv_access import insert_record
+
 from display import clear_screen, pause
 from db_config import Entry
 
