@@ -12,7 +12,7 @@ def search_menu():
           "f) Return to Main Menu\n")
 
 def edit_menu():
-    print("== EDIT MENU ==\n"
+    print("\n== EDIT MENU ==\n"
           "What would you like to edit?\n"
           "a) Date\n"
           "b) Title\n"

@@ -67,3 +67,34 @@ def date_range_search(search):
             records.append(rec)
     
     return records
+
+def edit_date_query(new_value, entry_id):
+    q = Entry.update(date=new_value).where(Entry.id == entry_id).execute()
+    entry = Entry.select().where(Entry.id == entry_id).get()
+
+    return entry
+
+def edit_title_query(new_value, entry_id):
+    q = Entry.update(title=new_value).where(Entry.id == entry_id).execute()
+    entry = Entry.select().where(Entry.id == entry_id).get()
+
+    return entry
+
+def edit_time_query(new_value, entry_id):
+    q = Entry.update(time_spent=new_value).where(Entry.id == entry_id).execute()
+    entry = Entry.select().where(Entry.id == entry_id).get()
+
+    return entry
+
+def edit_notes_query(new_value, entry_id):
+    q = Entry.update(notes=new_value).where(Entry.id == entry_id).execute()
+    entry = Entry.select().where(Entry.id == entry_id).get()
+
+    return entry
+
+
+
+#TESTING!
+
+if __name__ == "__main__":
+    pass

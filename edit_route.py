@@ -1,133 +1,64 @@
+from db_config import Entry
 from display import (
     pause,
     clear_screen,
     edit_menu, 
     search_menu, 
-    invalid_input
+    invalid_input,
+    print_entry
 )
-from csv_access import edit_item
 from get_inputs import (
     get_date, 
     get_title, 
     get_time, 
     get_notes
 )
+from db_access import (
+    edit_date_query,
+    edit_title_query,
+    edit_time_query,
+    edit_notes_query
+)
 
-
-def edit_date(record, origin_csv):
-    """Edit a record's date value.
-
-    :param record: dictionary marked for editing
-    :param origin_csv: list of records in work-log.csv 
-    :return: dictionary that is edited record
-    """
-
-    clear_screen()
-    print("Edit Date")
-
-    new_item = get_date()
-    e_record = edit_item('date', new_item, record, origin_csv)
-    record = e_record
+def edit_value(entry, entry_id, key, get_func, db_query):
 
     clear_screen()
-    print("Date successfully updated!\n")
+    print("Edit {}".format(key))
+    new_value = get_func()
+
+    entry = db_query(new_value, entry_id)
+
+    clear_screen()
+    print("{} successfully updated!\n".format(key))
     pause()
-    return record
+    return entry
 
-def edit_title(record, origin_csv):
-    """Edit a record's title value.
 
-    :param record: dictionary marked for editing
-    :param origin_csv: list of records in work-log.csv 
-    :return: dictionary that is edited record
-    """
+def edit_entry(entry):
+    """Continously prompt user to edit entry.
 
-    clear_screen()
-    print("Edit Title")
-
-    new_item = get_title()
-    e_record = edit_item('title', new_item, record, origin_csv)
-    record = e_record
-
-    clear_screen()
-    print("Title successfully updated!\n")
-    pause()
-
-    return record
-
-def edit_time(record, origin_csv):
-    """Edit a record's time spent value.
-
-    :param record: dictionary marked for editing
-    :param origin_csv: list of records in work-log.csv 
-    :return: dictionary that is edited record
-    """
-
-    clear_screen()
-    print("Edit Time Spent")
-
-    new_item = get_time()
-    e_record = edit_item('time_spent', new_item, record, origin_csv)
-    record = e_record
-
-    clear_screen()
-    print("Time spent successfully updated!\n")
-    pause()
-
-    return record
-
-def edit_notes(record, origin_csv):
-    """Edit a record's notes value.
-
-    :param record: dictionary marked for editing
-    :param origin_csv: list of records in work-log.csv 
-    :return: dictionary that is edited record
-    """
-
-    clear_screen()
-    print("Edit Notes")
-
-    new_item = get_notes()
-    e_record = edit_item('notes', new_item, record, origin_csv)
-    record = e_record
-
-    clear_screen()
-    print("Notes successfully updated!\n")
-    pause()
-
-    return record
-
-def edit_record(record, origin_csv):
-    """Continously prompt user to edit record.
-
-    :param record: dictionary marked for editing
-    :param origin_csv: list of records in work-log.csv 
+    :param entry: Entry marked for editing
     :return: None
     """
 
+    entry_id = entry.id
     editing = True
-    origin_csv = origin_csv
-    record = record
 
     while editing:
         clear_screen()
-        print_record(record)
+        print_entry(entry)
         edit_menu()
 
         edit_choice = input("> ")
 
         if edit_choice.lower() == "a":
-            edit = edit_date(record, origin_csv)
-            record = edit
+            entry = edit_value(entry, entry_id, 'Date', get_date, edit_date_query)
         elif edit_choice.lower() == "b":
-            edit = edit_title(record, origin_csv)
-            record = edit
+            entry = edit_value(entry, entry_id, 'Title', get_title, edit_title_query)
         elif edit_choice.lower() == "c":
-            edit = edit_time(record, origin_csv)
-            record = edit
+            entry = edit_value(entry, entry_id, 'Time', get_time, edit_time_query)
         elif edit_choice.lower() == "d":
-            edit = edit_notes(record, origin_csv)
-            record = edit
+            entry = edit_value(entry, entry_id, 'Notes', get_notes, edit_notes_query)
         elif edit_choice.lower() == "e":
             break
         else:

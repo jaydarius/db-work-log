@@ -5,7 +5,7 @@ from db_access import (
     keyword_search,
     time_search
 )
-from edit_route import edit_record
+from edit_route import edit_entry
 from display import (
     print_entry,
     clear_screen,
@@ -62,10 +62,10 @@ def page_entries(entries):
                 index -= 1
             continue
         elif user_choice == "e":
-            edit_record(record, origin_csv)
+            edit_entry(entry)
             break
         elif user_choice == "d":
-            del_record(record, origin_csv)
+            del_record(record)
             clear_screen()
             print(""""{}" log has been deleted!\n""".format(record['title']))       
             pause()
