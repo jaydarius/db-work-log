@@ -12,6 +12,16 @@ class Entry(Model):
     class Meta:
         database = db
 
+    #  lifted from https://stackoverflow.com/questions/37309024/peewee-instance-matching-query-does-not-exist
+    @classmethod
+    def not_here(cls, date):
+        try:
+            cls.select().where(
+                cls.date == date
+            ).get()
+        except cls.DoesNotExist:
+            print("Whoops")
+
 def initialize():
     """Create the database and the table if they do not exist."""
     db.connect()

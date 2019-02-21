@@ -34,6 +34,7 @@ def add_entry(user, date, title, time_spent, notes):
 def add_route():
     """Add an entry"""
 
+
     user = get_user()
     date = get_date()
     title = get_title()
