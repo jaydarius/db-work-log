@@ -7,7 +7,8 @@ from peewee import *
 from db_config import Entry, db, initialize
 from display import (
     clear_screen, 
-    invalid_input
+    invalid_input,
+    menu_loop
 )
 from search_route import (
     search_records,
@@ -16,29 +17,6 @@ from search_route import (
 )
 from add_route import add_route
 
-
-def menu_loop():
-    """Show the menu."""
-
-    choice = None
-
-    while choice !='c':
-        clear_screen()
-        print("== WORK LOG==\n")
-        for key, value in menu.items():
-            print("{}) {}".format(key, value.__doc__))
-        print("c) Quit")
-
-        choice = input("\n> ").lower().strip()
-
-        if choice in menu:
-            clear_screen()
-            menu[choice]()
-
-menu = OrderedDict([
-    ('a', add_route),
-    ('b', search_route)
-])
 
 if __name__ == "__main__":
     clear_screen()
