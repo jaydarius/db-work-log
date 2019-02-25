@@ -18,6 +18,30 @@ from search_route import (
 from add_route import add_route
 
 
+def menu_loop():
+    """Show the menu."""
+
+    choice = None
+    menu = OrderedDict([
+        ('a', add_route),
+        ('b', search_route)
+    ])
+
+
+    while choice !='c':
+        clear_screen()
+        print("== WORK LOG==\n")
+        for key, value in menu.items():
+            print("{}) {}".format(key, value.__doc__))
+        print("c) Quit")
+
+        choice = input("\n> ").lower().strip()
+
+        if choice in menu:
+            clear_screen()
+            menu[choice]()
+
+
 if __name__ == "__main__":
     clear_screen()
     initialize()
