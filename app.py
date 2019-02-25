@@ -8,7 +8,7 @@ from db_config import Entry, db, initialize
 from display import (
     clear_screen, 
     invalid_input,
-    menu_loop
+
 )
 from search_route import (
     search_records,

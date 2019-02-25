@@ -1,29 +1,6 @@
 import os
 
 
-def menu_loop():
-    """Show the menu."""
-
-    choice = None
-    menu = OrderedDict([
-        ('a', add_route),
-        ('b', search_route)
-    ])
-
-
-    while choice !='c':
-        clear_screen()
-        print("== WORK LOG==\n")
-        for key, value in menu.items():
-            print("{}) {}".format(key, value.__doc__))
-        print("c) Quit")
-
-        choice = input("\n> ").lower().strip()
-
-        if choice in menu:
-            clear_screen()
-            menu[choice]()
-
 def search_menu():
     print("== SEARCH MENU ==\n"
           "Do you want to search by:\n"

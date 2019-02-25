@@ -10,7 +10,7 @@ def get_user():
             print("Employee name\n")
             user = input("> ")
             if len(user) == 0:
-                raise NameError("Please enter a valid keyword.")
+                raise NameError("Please enter a valid name.")
             clear_screen()
             return user
         except NameError as e:

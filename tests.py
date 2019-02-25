@@ -1,6 +1,5 @@
 import unittest
 from unittest import mock
-from contextlib import contextmanager
 
 from get_inputs import (
     get_user,
@@ -14,10 +13,17 @@ from get_inputs import (
 
 class WorkLogTest(unittest.TestCase):
     
-    def test_get_user(self):
-        with mock.patch('builtins.input', return_value="yes"):
-            self.assertEqual(get_user(), "yes")
+    @mock.patch('builtins.input')
+    def test_get_user(self, mocked_input):
+        mocked_input.return_value = "jay"
+        self.assertEqual(get_user(), "jay")
 
+    @mock.patch('builtins.input')
+    def test_get_date(self, mocked_input):
+        mocked_input.side_effect = "11/11/20102"
+        self.assertEqual(get_user(), "11/11/20102")
+
+       
 
 
 if __name__ == "__main__":
