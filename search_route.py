@@ -46,7 +46,7 @@ def page_entries(entries):
         print('='*10)
         print_entry(entry)
         print('='*10)
-        page_menu(index, entries)
+        print(page_menu(index, entries))
         user_choice = input("\n> ")
 
         if user_choice == "n":
@@ -99,7 +99,7 @@ def search_route():
     searching = True
 
     while searching:
-        search_menu()
+        print(search_menu())
         
         choice = input("> ")
         choice = choice.lower()

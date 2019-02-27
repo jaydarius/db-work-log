@@ -21,3 +21,4 @@ htmlcov/style.css
 .coverage
 .vscode/settings.json
 __pycache__/display.cpython-37.pyc
+tests_pg.py

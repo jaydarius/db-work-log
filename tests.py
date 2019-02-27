@@ -9,19 +9,16 @@ from get_inputs import (
     get_time, 
     get_notes,
     get_keyword,
-    get_parsed_date 
-    )
+    get_parsed_date,
+    get_date_range 
+)
 
+from display import search_menu, edit_menu, page_menu
 
 class WorkLogTest(unittest.TestCase):
     
 
     @mock.patch('builtins.input', side_effect=['jay'])
-    def test_get_user_jay(self, mocked_input):
-        result = get_user()
-        self.assertEqual(result, 'jay')
-
-    @mock.patch('builtins.input', side_effect=['', '\n'])
     def test_get_user_jay(self, mocked_input):
         result = get_user()
         self.assertEqual(result, 'jay')
@@ -52,10 +49,45 @@ class WorkLogTest(unittest.TestCase):
         self.assertEqual(result, 'Sim Keyword')
 
     @mock.patch('builtins.input', side_effect=['11/11/2009'])
-    def test_get_keyword(self, mocked_input):
+    def test_get_parsed_date(self, mocked_input):
         result = get_parsed_date("first")
         self.assertEqual(result, datetime(2009, 11, 11, 0, 0))
 
+    @mock.patch('builtins.input', side_effect=['11/11/2009', '13/11/2009'])
+    def test_get_date_range(self, mocked_input):
+        result = get_date_range()
+        self.assertEqual(result, ['11/11/2009', '12/11/2009'])
+
+    def test_search_menu(self):
+        result = search_menu()
+        self.assertEqual(result, (
+                "== SEARCH MENU ==\n"
+                "Do you want to search by:\n"
+                "a) Exact Date\n"
+                "b) Range of Dates\n"  
+                "c) Exact Search\n"
+                "d) Employee\n"
+                "e) Time Spent\n"
+                "f) Return to Main Menu\n"
+            )
+        )
+    
+    def test_edit_menu(self):
+        result = edit_menu()
+        self.assertEqual(result, (
+                "\n== EDIT MENU ==\n"
+                "What would you like to edit?\n"
+                "a) Date\n"
+                "b) Title\n"
+                "c) Time Spent\n"
+                "d) Notes\n"
+                "e) Return to Search Menu\n"
+            )
+        )
+    
+    def test_page_menu(self):
+        result = page_menu(1, [1])
+        self.assertEqual(result, "[E]dit, [D]elete, [R]eturn to Search Menu")
 
 if __name__ == "__main__":
     unittest.main()

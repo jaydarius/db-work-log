@@ -2,7 +2,7 @@ import os
 
 
 def search_menu():
-    print("== SEARCH MENU ==\n"
+    return ("== SEARCH MENU ==\n"
           "Do you want to search by:\n"
           "a) Exact Date\n"
           "b) Range of Dates\n"  
@@ -12,7 +12,7 @@ def search_menu():
           "f) Return to Main Menu\n")
 
 def edit_menu():
-    print("\n== EDIT MENU ==\n"
+    return ("\n== EDIT MENU ==\n"
           "What would you like to edit?\n"
           "a) Date\n"
           "b) Title\n"
@@ -29,13 +29,13 @@ def page_menu(index, records):
     """
     
     if len(records) == 1:
-        print("[E]dit, [D]elete, [R]eturn to Search Menu")
+        return ("[E]dit, [D]elete, [R]eturn to Search Menu")
     elif index == (len(records)-1):
-        print("[B]ack, [E]dit, [D]elete, [R]eturn to Search Menu")
+        return ("[B]ack, [E]dit, [D]elete, [R]eturn to Search Menu")
     elif index == 0:
-        print("[N]ext, [E]dit, [D]elete, [R]eturn to Search Menu")
+        return ("[N]ext, [E]dit, [D]elete, [R]eturn to Search Menu")
     else:
-        print("[N]ext, [B]ack, [E]dit, [D]elete, [R]eturn to Search Menu")
+        return ("[N]ext, [B]ack, [E]dit, [D]elete, [R]eturn to Search Menu")
 
 
 def print_entry(entry):

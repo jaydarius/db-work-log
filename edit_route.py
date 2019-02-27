@@ -41,13 +41,12 @@ def edit_entry(entry, entry_id):
     :return: None
     """
 
-
     editing = True
 
     while editing:
         clear_screen()
         print_entry(entry)
-        edit_menu()
+        print(edit_menu())
 
         edit_choice = input("> ")
 
