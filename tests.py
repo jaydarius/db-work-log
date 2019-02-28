@@ -3,7 +3,7 @@ from datetime import datetime
 from unittest import mock
 
 import app
-
+from add_route import add_route
 from get_inputs import (
     get_user,
     get_date, 
@@ -14,10 +14,9 @@ from get_inputs import (
     get_parsed_date,
     get_date_range 
 )
-
 from display import search_menu, edit_menu, page_menu
 
-class WorkLogTest(unittest.TestCase):
+class GetInputsTest(unittest.TestCase):
     
 
     @mock.patch('builtins.input', side_effect=['jay'])
@@ -60,6 +59,8 @@ class WorkLogTest(unittest.TestCase):
         result = get_date_range()
         self.assertEqual(result, ['11/11/2009', '12/11/2009'])
 
+class DisplayTest(unittest.TestCase):
+
     def test_search_menu(self):
         result = search_menu()
         self.assertEqual(result, (
@@ -90,6 +91,14 @@ class WorkLogTest(unittest.TestCase):
     def test_page_menu(self):
         result = page_menu(1, [1])
         self.assertEqual(result, "[E]dit, [D]elete, [R]eturn to Search Menu")
+
+class AddRouteTest(unittest.TestCase):
+
+    @mock.patch('builtins.input', side_effect=['Max K', '11/11/2009','Reading', 66, 'grabbing my wallet'])
+    def test_add_route(self, mocked_input):
+        result = add_route()
+        self.assertEqual(result, "The entry has been added!\n")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -96,6 +96,7 @@ def search_records(get_value, search, column=None):
 
 def search_route():
     """Search for record(s)"""
+    
     searching = True
 
     while searching:
@@ -122,4 +123,5 @@ def search_route():
             invalid_input()
 
         clear_screen()
+
 

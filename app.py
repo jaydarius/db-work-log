@@ -8,7 +8,7 @@ from db_config import Entry, db, initialize
 from display import (
     clear_screen, 
     invalid_input,
-
+    pause
 )
 from search_route import (
     search_records,
@@ -39,7 +39,12 @@ def menu_loop():
 
         if choice in menu:
             clear_screen()
-            menu[choice]()
+            if choice == 'a':
+                print(menu[choice]())
+                pause()
+            else:
+                menu[choice]()
+            
 
 
 if __name__ == "__main__":
