@@ -2,6 +2,8 @@ import unittest
 from datetime import datetime
 from unittest import mock
 
+import app
+
 from get_inputs import (
     get_user,
     get_date, 
