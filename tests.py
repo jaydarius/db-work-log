@@ -4,6 +4,7 @@ from unittest import mock
 
 import app
 from add_route import add_route
+from search_route import search_route
 from get_inputs import (
     get_user,
     get_date, 
@@ -98,6 +99,18 @@ class AddRouteTest(unittest.TestCase):
     def test_add_route(self, mocked_input):
         result = add_route()
         self.assertEqual(result, "The entry has been added!\n")
+
+class SearchRouteTest(unittest.TestCase):
+
+    # setUp()
+
+    @mock.patch('builtins.input', side_effect=['a', '12/12/2009','r'])
+    def test_searche_route(self, mocked_input):
+        result = search_route()
+        self.assertEqual(result, True)
+
+    # tearDown()
+    
 
 
 if __name__ == "__main__":

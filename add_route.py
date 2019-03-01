@@ -12,7 +12,7 @@ from db_config import Entry
 
 
 def add_route():
-    """Add an entry and return a sting that it's added."""
+    """Add an entry"""
 
     Entry.create(
         user=get_user(),

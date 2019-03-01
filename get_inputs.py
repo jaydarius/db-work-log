@@ -139,8 +139,6 @@ def get_keyword():
             continue
 
 
-
-
 # Testing!
 if __name__ == "__main__":
     get_date_range()

@@ -96,19 +96,20 @@ def search_records(get_value, search, column=None):
 
 def search_route():
     """Search for record(s)"""
-    
+
     searching = True
 
     while searching:
         print(search_menu())
         
+        return searching
         choice = input("> ")
         choice = choice.lower()
         
         clear_screen()
 
         if choice == 'a':
-            search_records(get_date, date_search)
+            return search_records(get_date, date_search)
         elif choice == 'b':
             search_records(get_date_range, date_search)
         elif choice == 'c':
