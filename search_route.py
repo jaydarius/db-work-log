@@ -113,7 +113,9 @@ def search_route():
             if type(entries) != None:
                 page_entries(entries)
         elif choice == 'b':
-            search_entries(get_date_range, date_search)
+            entries = (search_entries(get_date_range, date_search))
+            if type(entries) != None:
+                page_entries(entries)
         elif choice == 'c':
             search_entries(get_keyword, keyword_search)
         elif choice == 'd':
