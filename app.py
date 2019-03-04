@@ -11,7 +11,7 @@ from display import (
     pause
 )
 from search_route import (
-    search_records,
+    search_entries,
     page_entries,
     search_route
 )
