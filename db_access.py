@@ -17,17 +17,10 @@ def date_search(search):
     date_list = []
 
     if type(search) == list:
-        for range_date in search:
-            try:
-                date_list.append(Entry.select().where(
-                        Entry.date == range_date
-                    ).get())
-            except Entry.DoesNotExist:
-                continue
-        return date_list
+        return Entry.select().where(Entry.date.in_(search))
     else:
-        entries = Entry.select().where(Entry.date.contains(search))
-        return entries
+        return Entry.select().where(Entry.date.contains(search))
+        
 
 def user_search(search):
     """Search the DB for all entries that match a date.
