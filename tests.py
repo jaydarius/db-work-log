@@ -105,11 +105,11 @@ class SearchRouteTest(unittest.TestCase):
     # setUp()
 
     @mock.patch('builtins.input', side_effect=['a', '12/12/2009','r'])
-    def test_searche_route(self, mocked_input):
+    def test_search_route(self, mocked_input):
         result = search_route()
         self.assertEqual(result, True)
+         
 
-    # tearDown()
     
 
 

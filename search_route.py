@@ -35,7 +35,6 @@ def page_entries(entries):
 
     index = 0
     paging = True
-    edited_record = None
     
     while paging:
         entry = entries[index]
@@ -77,8 +76,7 @@ def page_entries(entries):
         else:
             invalid_input()
 
-
-def search_records(get_value, search, column=None):
+def search_records(get_value, search):
     """Locate matching records.
 
     :param get_value: object containing user's input
@@ -102,7 +100,6 @@ def search_route():
     while searching:
         print(search_menu())
         
-        return searching
         choice = input("> ")
         choice = choice.lower()
         
