@@ -2,7 +2,9 @@ import unittest
 from datetime import datetime
 from unittest import mock
 
+from peewee import *
 import app
+from db_config import Entry
 from add_route import add_route
 from search_route import search_route, search_entries
 from get_inputs import (
@@ -109,11 +111,16 @@ class AddRouteTest(unittest.TestCase):
         self.assertEqual(result, "The entry has been added!\n")
 
 class SearchRouteTest(unittest.TestCase):
+    
+    def setUp(self):
+        self.Entry = Entry()
+        Entry.Meta.database = SqliteDatabase('test-work-log.db')
 
-    @mock.patch('builtins.input', side_effect=['11/11/2009'])
-    def test_search_entries_by_date(self, mock_input):
+    @mock.patch('builtins.input', side_effect=['12/12/2000'])
+    def test_entry_search_by_date(self, mock_input):
         result = search_entries(get_date, date_search)
-        self.assertEqual(result, "<Peewee model object>")
+        compare = Entry.select().where(Entry.date.contains('12/12/2000'))
+        self.assertEqual(len(result), len(compare))
 
     
 

@@ -87,8 +87,7 @@ def search_entries(get_value, search):
     try:
         user_input = get_value()
         entries = search(user_input)
-        if len(entries) == 0:
-            raise NameError("Not found!")
+
         return entries
     except NameError as e:
         print(e)
@@ -119,7 +118,10 @@ def search_route():
         elif choice == 'c':
             search_entries(get_keyword, keyword_search)
         elif choice == 'd':
-            search_entries(get_user, user_search)
+            
+            entries = (search_entries(get_user, user_search))
+            if type(entries) != None:
+                page_entries(entries)
         elif choice == 'e':
             search_entries(get_time, time_search)
         elif choice == 'f':

@@ -1,6 +1,7 @@
 from peewee import *
 
 db = SqliteDatabase('work-log.db')
+test_db = SqliteDatabase('test-work-log.db')
 
 class Entry(Model):
     user = TextField()
@@ -20,7 +21,7 @@ class Entry(Model):
                 cls.date == date
             ).get()
         except cls.DoesNotExist:
-            print("Whoops")
+            pass
 
 def initialize():
     """Create the database and the table if they do not exist."""
