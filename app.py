@@ -10,11 +10,7 @@ from display import (
     invalid_input,
     pause
 )
-from search_route import (
-    search_entries,
-    page_entries,
-    search_route
-)
+from search_route import search_route
 from add_route import add_route
 
 
@@ -39,11 +35,7 @@ def menu_loop():
 
         if choice in menu:
             clear_screen()
-            if choice == 'a':
-                print(menu[choice]())
-                pause()
-            else:
-                menu[choice]()
+            menu[choice]()
             
 
 if __name__ == "__main__":

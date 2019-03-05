@@ -21,7 +21,15 @@ from db_access import (
 )
 
 def edit_value(entry, entry_id, key, get_func, db_query):
+    """Ask user for value and edit entry.
 
+    :param entry: peewee Model object marked for editing
+    :param entry_id: int that is primary id of entry
+    :param key: column marked for edting in entry
+    :param get_func: prompt for user input of the new value
+    :param db_query: query to send to DB to edit the entry
+    :return: newly edited entry
+    """
     clear_screen()
     print("Edit {}".format(key))
     new_value = get_func()

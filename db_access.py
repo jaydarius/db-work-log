@@ -1,12 +1,6 @@
 from db_config import Entry
 from peewee import *
 
-# this may or may not work dep on being able to select "column"
-def meta_search(column, search):
-    entries = Entry.select().order_by(Entry.date.desc()).where(
-            Entry.column.contains(search)
-        )
-    return entries
 
 def date_search(search):
     """Search the DB for all entries that match date(s)

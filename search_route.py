@@ -1,5 +1,4 @@
 from db_access import (
-    meta_search,
     date_search,
     user_search,
     keyword_search,

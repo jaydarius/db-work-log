@@ -17,15 +17,22 @@ from get_inputs import (
     get_parsed_date,
     get_date_range 
 )
-from display import search_menu, edit_menu, page_menu
+from display import (
+    search_menu, 
+    edit_menu, 
+    page_menu,
+    clear_screen
+)
 from db_access import (
-    meta_search,
     date_search,
     user_search,
     keyword_search,
     time_search,
     del_entry
 )
+from edit_route import edit_value
+
+test_db = SqliteDatabase(":memory:")
 
 class GetInputsTest(unittest.TestCase):
     
@@ -103,6 +110,13 @@ class DisplayTest(unittest.TestCase):
         result = page_menu(1, [1])
         self.assertEqual(result, "[E]dit, [D]elete, [R]eturn to Search Menu")
 
+    def test_clear_screen(self):
+        result = clear_screen()
+        self.assertEqual(result, None)
+
+class DBAccessTest(unittest.TestCase):
+    pass
+
 class AddRouteTest(unittest.TestCase):
 
     @mock.patch('builtins.input', side_effect=['Max K', '11/11/2009','Reading', 66, 'grabbing my wallet'])
@@ -113,16 +127,58 @@ class AddRouteTest(unittest.TestCase):
 class SearchRouteTest(unittest.TestCase):
     
     def setUp(self):
-        self.Entry = Entry()
-        Entry.Meta.database = SqliteDatabase('test-work-log.db')
+        test_db.bind(Entry)
 
-    @mock.patch('builtins.input', side_effect=['12/12/2000'])
+        test_db.connect()
+        test_db.create_tables([Entry], safe=True)
+
+        Entry.create(
+            user='Jay',
+            date='12/12/2002',
+            title='Building additional pylons',
+            time_spent=32,
+            notes='' 
+    )
+
+    @mock.patch('builtins.input', side_effect=['12/12/2002'])
     def test_entry_search_by_date(self, mock_input):
         result = search_entries(get_date, date_search)
-        compare = Entry.select().where(Entry.date.contains('12/12/2000'))
+        compare = Entry.select().where(Entry.date.contains('12/12/2002'))
         self.assertEqual(len(result), len(compare))
 
+    @mock.patch('builtins.input', side_effect=['Jay'])
+    def test_entry_search_by_user(self, mock_input):
+        result = search_entries(get_user, user_search)
+        compare = Entry.select().where(Entry.user.contains('Jay'))
+        self.assertEqual(len(result), len(compare))
+
+    def tearDown(self):
+        test_db.drop_tables([Entry])
+        test_db.close()
+
+class EditRouteTest(unittest.TestCase):
     
+    def setUp(self):
+        test_db.bind(Entry)
+
+        test_db.connect()
+        test_db.create_tables([Entry], safe=True)
+
+        Entry.create(
+            user='Jay',
+            date='12/12/2002',
+            title='Building additional pylons',
+            time_spent=32,
+            notes='' 
+        )
+
+    @mock.patch('builtins.input', side_effect=['Rolling in the dough'])
+    def test_edit_value(self, mock_input):
+        entry = Entry.select().where(Entry.user.contains('Jay'))
+        entry_id = entry.id.get()
+        result = edit_value(entry, entry_id, 'Title', get_title, edit_title_query)
+        compare = Entry.select().where(Entry.user.contains('Rolling in the dough'))
+        self.assertEqual(len(result), len(compare))
 
 
 if __name__ == "__main__":

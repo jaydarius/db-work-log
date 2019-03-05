@@ -51,6 +51,7 @@ def invalid_input():
 
 def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
+    return None
     
 def pause():
     """Pause the display until user enters a key and return None"""
