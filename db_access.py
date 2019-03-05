@@ -18,7 +18,14 @@ def date_search(search):
     date_list = []
 
     if type(search) == list:
-        return Entry.select().where(Entry.date.in_(search))
+        for range_date in search:
+            try:
+                date_list.append(Entry.select().where(
+                        Entry.date == range_date
+                    ).get())
+            except Entry.DoesNotExist:
+                continue
+        return date_list
     else:
         return Entry.select().where(Entry.date.contains(search))
         
