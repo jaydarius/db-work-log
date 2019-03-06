@@ -126,10 +126,12 @@ class AddRouteTest(unittest.TestCase):
 
 class SearchRouteTest(unittest.TestCase):
     
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
+        cls.test_db = SqliteDatabase(":memory:")
         test_db.bind(Entry)
 
-        test_db.connect()
+        cls.test_db.connect()
         test_db.create_tables([Entry], safe=True)
 
         Entry.create(
@@ -152,9 +154,10 @@ class SearchRouteTest(unittest.TestCase):
         compare = Entry.select().where(Entry.user.contains('Jay'))
         self.assertEqual(len(result), len(compare))
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(cls):
         test_db.drop_tables([Entry])
-        test_db.close()
+        cls.test_db.close()
 
 class EditRouteTest(unittest.TestCase):
     

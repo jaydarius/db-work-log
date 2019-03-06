@@ -77,25 +77,21 @@ def page_entries(entries):
 
 def search_entries(get_value, search):
     """Locate matching records.
-
     :param get_value: object containing user's input
     :param search: function that will apply user's input
-    :return: Entries
+    :return: None
     """
-    
-    try:
-        user_input = get_value()
-        entries = search(user_input)
-
-        return entries
-    except NameError as e:
-        print(e)
+    user_input = get_value()
+    entries = search(user_input)  
+   
+    if not entries:
+        print("Not found!\n")
         pause()
-        
-    
+    else:
+        page_entries(entries)
+
 def search_route():
     """Search for record(s)"""
-
     searching = True
 
     while searching:
@@ -107,27 +103,18 @@ def search_route():
         clear_screen()
 
         if choice == 'a':
-            entries = (search_entries(get_date, date_search))
-            if type(entries) != None:
-                page_entries(entries)
+            search_records(get_date, date_search)
         elif choice == 'b':
-            entries = (search_entries(get_date_range, date_search))
-            if type(entries) != None:
-                page_entries(entries)
+            search_records(get_date_range, date_search)
         elif choice == 'c':
-            search_entries(get_keyword, keyword_search)
+            search_records(get_keyword, keyword_search)
         elif choice == 'd':
-            
-            entries = (search_entries(get_user, user_search))
-            if type(entries) != None:
-                page_entries(entries)
+            search_records(get_user, user_search)
         elif choice == 'e':
-            search_entries(get_time, time_search)
+            search_records(get_time, time_search)
         elif choice == 'f':
             break
         else:
             invalid_input()
 
         clear_screen()
-
-

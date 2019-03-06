@@ -1,7 +1,6 @@
 from peewee import *
 
 db = SqliteDatabase('work-log.db')
-test_db = SqliteDatabase('test-work-log.db')
 
 class Entry(Model):
     user = TextField()

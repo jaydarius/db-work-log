@@ -9,19 +9,20 @@ def date_search(search):
     :return: a list of the found entries
     """
 
-    date_list = []
+    entries = []
 
     if type(search) == list:
         for range_date in search:
             try:
-                date_list.append(Entry.select().where(
+                entries.append(Entry.select().where(
                         Entry.date == range_date
                     ).get())
             except Entry.DoesNotExist:
                 continue
-        return date_list
+        return entries
     else:
         return Entry.select().where(Entry.date.contains(search))
+
         
 
 def user_search(search):

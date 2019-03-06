@@ -20,7 +20,7 @@ from db_access import (
     edit_notes_query
 )
 
-def edit_value(entry, entry_id, key, get_func, db_query):
+def edit_value(entry_id, key, get_func, db_query):
     """Ask user for value and edit entry.
 
     :param entry: peewee Model object marked for editing
@@ -59,7 +59,7 @@ def edit_entry(entry, entry_id):
         edit_choice = input("> ")
 
         if edit_choice.lower() == "a":
-            entry = edit_value(entry, entry_id, 'Date', get_date, edit_date_query)
+            entry = edit_value(entry_id, 'Date', get_date, edit_date_query)
         elif edit_choice.lower() == "b":
             entry = edit_value(entry, entry_id, 'Title', get_title, edit_title_query)
         elif edit_choice.lower() == "c":
