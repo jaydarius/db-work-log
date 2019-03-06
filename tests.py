@@ -4,7 +4,8 @@ from unittest import mock
 
 from peewee import *
 import app
-from db_config import Entry
+from app import menu_loop
+from db_config import Entry, initialize
 from add_route import add_route
 from search_route import search_route, search_entries
 from get_inputs import (
@@ -28,7 +29,8 @@ from db_access import (
     user_search,
     keyword_search,
     time_search,
-    del_entry
+    del_entry,
+    edit_date_query
 )
 from edit_route import edit_value
 
@@ -106,30 +108,24 @@ class DisplayTest(unittest.TestCase):
             )
         )
     
-    def test_page_menu(self):
-        result = page_menu(1, [1])
+    def test_page_menu_with_one_entry(self):
+        result = page_menu(1, ["entry1"])
         self.assertEqual(result, "[E]dit, [D]elete, [R]eturn to Search Menu")
+
+    def test_page_menu_at_end(self):
+        result = page_menu(1, ["entry1" , "entry2"])
+        self.assertEqual(result, "[B]ack, [E]dit, [D]elete, [R]eturn to Search Menu")
 
     def test_clear_screen(self):
         result = clear_screen()
         self.assertEqual(result, None)
 
-class DBAccessTest(unittest.TestCase):
-    pass
-
-class AddRouteTest(unittest.TestCase):
-
-    @mock.patch('builtins.input', side_effect=['Max K', '11/11/2009','Reading', 66, 'grabbing my wallet'])
-    def test_add_route(self, mock_input):
-        result = add_route()
-        self.assertEqual(result, "The entry has been added!\n")
-
-class SearchRouteTest(unittest.TestCase):
+class EditRouteTest(unittest.TestCase):
     
     @classmethod
     def setUpClass(cls):
         cls.test_db = SqliteDatabase(":memory:")
-        test_db.bind(Entry)
+        test_db.bind_ctx(Entry)
 
         cls.test_db.connect()
         test_db.create_tables([Entry], safe=True)
@@ -142,29 +138,29 @@ class SearchRouteTest(unittest.TestCase):
             notes='' 
     )
 
-    @mock.patch('builtins.input', side_effect=['12/12/2002'])
-    def test_entry_search_by_date(self, mock_input):
-        result = search_entries(get_date, date_search)
-        compare = Entry.select().where(Entry.date.contains('12/12/2002'))
+
+    @mock.patch('builtins.input', side_effect=['Rolling in the dough'])
+    def test_edit_value(self, mock_input):
+        entry = Entry.select().where(Entry.user.contains('Jay'))
+        entry_id = entry.id
+        result = edit_value(entry_id, 'Title', get_title, edit_title_query)
+        compare = Entry.select().where(Entry.title.contains('Rolling in the dough'))
         self.assertEqual(len(result), len(compare))
 
-    @mock.patch('builtins.input', side_effect=['Jay'])
-    def test_entry_search_by_user(self, mock_input):
-        result = search_entries(get_user, user_search)
-        compare = Entry.select().where(Entry.user.contains('Jay'))
-        self.assertEqual(len(result), len(compare))
 
     @classmethod
     def tearDownClass(cls):
         test_db.drop_tables([Entry])
-        cls.test_db.close()
+        cls.test_db.close()    
 
-class EditRouteTest(unittest.TestCase):
-    
-    def setUp(self):
-        test_db.bind(Entry)
+class DBEditTest(unittest.TestCase):
 
-        test_db.connect()
+    @classmethod
+    def setUpClass(cls):
+        cls.test_db = SqliteDatabase(":memory:")
+        test_db.bind_ctx(Entry)
+
+        cls.test_db.connect()
         test_db.create_tables([Entry], safe=True)
 
         Entry.create(
@@ -173,15 +169,105 @@ class EditRouteTest(unittest.TestCase):
             title='Building additional pylons',
             time_spent=32,
             notes='' 
-        )
+    )
 
-    @mock.patch('builtins.input', side_effect=['Rolling in the dough'])
-    def test_edit_value(self, mock_input):
-        entry = Entry.select().where(Entry.user.contains('Jay'))
-        entry_id = entry.id.get()
-        result = edit_value(entry, entry_id, 'Title', get_title, edit_title_query)
-        compare = Entry.select().where(Entry.user.contains('Rolling in the dough'))
+    def test_edit_date(self):
+        result = edit_date_query('12/10/2003', 1)
+        compare = Entry.select().where(Entry.id == 1)
+        self.assertEqual(result, compare)
+
+    @classmethod
+    def tearDownClass(cls):
+        test_db.drop_tables([Entry])
+        cls.test_db.close()
+
+class DBSearchTest(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_db = SqliteDatabase(":memory:")
+        test_db.bind_ctx(Entry)
+
+        cls.test_db.connect()
+        test_db.create_tables([Entry], safe=True)
+
+        Entry.create(
+            user='Jay',
+            date='12/12/2002',
+            title='Building additional pylons',
+            time_spent=32,
+            notes='' 
+    )
+
+    def test_date_search(self):
+        result = date_search('12/12/2002')
+        compare = Entry.select().where(Entry.date.contains('12/12/2002'))
         self.assertEqual(len(result), len(compare))
+
+    def test_user_search(self):
+        result = user_search('Jay')
+        compare = Entry.select().where(Entry.user.contains('Jay'))
+        self.assertEqual(len(result), len(compare))
+
+    def test_keyword_search(self):
+        result = keyword_search('pylons')
+        compare = Entry.select().where(Entry.title.contains('pylons'))
+        self.assertEqual(len(result), len(compare))
+
+    def test_time_search(self):
+        result = time_search(32)
+        compare = Entry.select().where(Entry.time_spent == 32)
+        self.assertEqual(len(result), len(compare))
+
+    @classmethod
+    def tearDownClass(cls):
+        test_db.drop_tables([Entry])
+        cls.test_db.close()
+
+class AddRouteTest(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_db = SqliteDatabase(":memory:")
+        test_db.bind_ctx(Entry)
+
+        cls.test_db.connect()
+        test_db.create_tables([Entry], safe=True)
+
+    @mock.patch('builtins.input', side_effect=['Jay', '11/11/2009','Reading', 64, 'Drank some water!'])
+    def test_add_route(self, mock_input):
+        result = add_route()
+        self.assertEqual(result, "The entry has been added!\n")
+    
+    
+    @classmethod
+    def tearDownClass(cls):
+        test_db.drop_tables([Entry])
+        cls.test_db.close()
+
+        
+class MainAppTest(unittest.TestCase):
+    
+    @mock.patch('builtins.input', side_effect=['c'])
+    def test_menu_loop(self, mock_input):
+        result = menu_loop()
+        self.assertEqual(result, None)
+
+class DBConfigTest(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_db = SqliteDatabase(":memory:")
+        test_db.bind_ctx(Entry)
+
+    def test_db_init(self):
+        result = initialize(test_db)
+        self.assertEqual(result, None)
+
+    @classmethod
+    def tearDownClass(cls):
+        test_db.drop_tables([Entry])
+        cls.test_db.close()
 
 
 if __name__ == "__main__":

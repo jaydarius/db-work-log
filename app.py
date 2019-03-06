@@ -13,7 +13,6 @@ from display import (
 from search_route import search_route
 from add_route import add_route
 
-
 def menu_loop():
     """Show the menu."""
 
@@ -36,11 +35,13 @@ def menu_loop():
         if choice in menu:
             clear_screen()
             menu[choice]()
+    
+    return None
             
 
 if __name__ == "__main__":
     clear_screen()
-    initialize()
+    initialize(db)
     menu_loop()
 
  

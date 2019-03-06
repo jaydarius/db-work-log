@@ -23,7 +23,6 @@ from db_access import (
 def edit_value(entry_id, key, get_func, db_query):
     """Ask user for value and edit entry.
 
-    :param entry: peewee Model object marked for editing
     :param entry_id: int that is primary id of entry
     :param key: column marked for edting in entry
     :param get_func: prompt for user input of the new value
@@ -61,11 +60,11 @@ def edit_entry(entry, entry_id):
         if edit_choice.lower() == "a":
             entry = edit_value(entry_id, 'Date', get_date, edit_date_query)
         elif edit_choice.lower() == "b":
-            entry = edit_value(entry, entry_id, 'Title', get_title, edit_title_query)
+            entry = edit_value(entry_id, 'Title', get_title, edit_title_query)
         elif edit_choice.lower() == "c":
-            entry = edit_value(entry, entry_id, 'Time', get_time, edit_time_query)
+            entry = edit_value(entry_id, 'Time', get_time, edit_time_query)
         elif edit_choice.lower() == "d":
-            entry = edit_value(entry, entry_id, 'Notes', get_notes, edit_notes_query)
+            entry = edit_value(entry_id, 'Notes', get_notes, edit_notes_query)
         elif edit_choice.lower() == "e":
             break
         else:

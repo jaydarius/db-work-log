@@ -14,7 +14,7 @@ class Entry(Model):
 
     #  lifted from https://stackoverflow.com/questions/37309024/peewee-instance-matching-query-does-not-exist
     @classmethod
-    def not_here(cls, date):
+    def find_date(cls, date):
         try:
             cls.select().where(
                 cls.date == date
@@ -22,7 +22,9 @@ class Entry(Model):
         except cls.DoesNotExist:
             pass
 
-def initialize():
+def initialize(database):
     """Create the database and the table if they do not exist."""
-    db.connect()
-    db.create_tables([Entry], safe=True)
+    database.connect()
+    database.create_tables([Entry], safe=True)
+
+    return None

@@ -76,7 +76,7 @@ def page_entries(entries):
             invalid_input()
 
 def search_entries(get_value, search):
-    """Locate matching records.
+    """Locate matching entries.
     :param get_value: object containing user's input
     :param search: function that will apply user's input
     :return: None
@@ -103,15 +103,15 @@ def search_route():
         clear_screen()
 
         if choice == 'a':
-            search_records(get_date, date_search)
+            search_entries(get_date, date_search)
         elif choice == 'b':
-            search_records(get_date_range, date_search)
+            search_entries(get_date_range, date_search)
         elif choice == 'c':
-            search_records(get_keyword, keyword_search)
+            search_entries(get_keyword, keyword_search)
         elif choice == 'd':
-            search_records(get_user, user_search)
+            search_entries(get_user, user_search)
         elif choice == 'e':
-            search_records(get_time, time_search)
+            search_entries(get_time, time_search)
         elif choice == 'f':
             break
         else:

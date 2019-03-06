@@ -63,36 +63,36 @@ def time_search(search):
     return entries
 
 def edit_date_query(new_value, entry_id):
+    """Update a row's column with a new value.
+
+    :param new_value: string that is date
+    :param entry_id: entry's primary key
+    :return: editd entry
+    """
     q = Entry.update(date=new_value).where(
             Entry.id == entry_id
         ).execute()
-    entry = Entry.select().where(Entry.id == entry_id).get()
-
-    return entry
+    return Entry.select().where(Entry.id == entry_id).get()
 
 def edit_title_query(new_value, entry_id):
     q = Entry.update(title=new_value).where(
             Entry.id == entry_id
         ).execute()
-    entry = Entry.select().where(Entry.id == entry_id).get()
+    return Entry.select().where(Entry.id == entry_id).get()
 
-    return entry
 
 def edit_time_query(new_value, entry_id):
+    
     q = Entry.update(time_spent=new_value).where(
                 Entry.id == entry_id
             ).execute()
-    entry = Entry.select().where(Entry.id == entry_id).get()
-
-    return entry
+    return Entry.select().where(Entry.id == entry_id).get()
 
 def edit_notes_query(new_value, entry_id):
     q = Entry.update(notes=new_value).where(
                 Entry.id == entry_id
             ).execute()
-    entry = Entry.select().where(Entry.id == entry_id).get()
-
-    return entry
+    return Entry.select().where(Entry.id == entry_id).get()
 
 def del_entry(user_id):
     q = Entry.get(Entry.id == user_id)
