@@ -35,7 +35,7 @@ from db_access import (
     edit_date_query,
     edit_title_query
 )
-from edit_route import edit_value
+from edit_route import edit_value, edit_entry
 
 test_db = SqliteDatabase(":memory:")
 
@@ -142,14 +142,21 @@ class EditRouteTest(unittest.TestCase):
     )
 
 
+
     @mock.patch('builtins.input', side_effect=['Rolling in the dough', 'a'])
-    def test_edit_value(self, mock_input):
+    def test_edit_value(self, mock_input): 
         entry = Entry.select().where(Entry.user.contains('Jay')).get()
         entry_id = entry.id
         result = edit_value(entry_id, 'Title', get_title, edit_title_query)
         compare = Entry.select().where(Entry.title.contains('Rolling in the dough')).get()
         self.assertEqual(result.id, compare.id)
 
+    @mock.patch('builtins.input', side_effect=['e'])
+    def test_edit_entry_quit(self, mock_input):
+        entry = Entry.select().where(Entry.user.contains('Jay')).get()
+        entry_id = entry.id
+        result = edit_entry(entry, entry_id)
+        self.assertEqual(result, None)
 
     @classmethod
     def tearDownClass(cls):

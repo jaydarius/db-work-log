@@ -44,6 +44,7 @@ def edit_entry(entry, entry_id):
     """Continously prompt user to edit entry.
 
     :param entry: Entry marked for editing
+    :param entry_id: int that is primary id of entry
     :return: None
     """
 
