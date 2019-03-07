@@ -67,7 +67,7 @@ def edit_date_query(new_value, entry_id):
 
     :param new_value: string that is date
     :param entry_id: entry's primary key
-    :return: editd entry
+    :return: edited entry
     """
     q = Entry.update(date=new_value).where(
             Entry.id == entry_id

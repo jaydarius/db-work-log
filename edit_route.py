@@ -36,8 +36,7 @@ def edit_value(entry_id, key, get_func, db_query):
     entry = db_query(new_value, entry_id)
 
     clear_screen()
-    print("{} successfully updated!\n".format(key))
-    pause()
+    input("{} successfully updated!\n".format(key))
     return entry
 
 

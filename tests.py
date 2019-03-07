@@ -3,6 +3,8 @@ from datetime import datetime
 from unittest import mock
 
 from peewee import *
+
+
 import app
 from app import menu_loop
 from db_config import Entry, initialize
@@ -30,7 +32,8 @@ from db_access import (
     keyword_search,
     time_search,
     del_entry,
-    edit_date_query
+    edit_date_query,
+    edit_title_query
 )
 from edit_route import edit_value
 
@@ -139,13 +142,13 @@ class EditRouteTest(unittest.TestCase):
     )
 
 
-    @mock.patch('builtins.input', side_effect=['Rolling in the dough'])
+    @mock.patch('builtins.input', side_effect=['Rolling in the dough', 'a'])
     def test_edit_value(self, mock_input):
-        entry = Entry.select().where(Entry.user.contains('Jay'))
+        entry = Entry.select().where(Entry.user.contains('Jay')).get()
         entry_id = entry.id
         result = edit_value(entry_id, 'Title', get_title, edit_title_query)
-        compare = Entry.select().where(Entry.title.contains('Rolling in the dough'))
-        self.assertEqual(len(result), len(compare))
+        compare = Entry.select().where(Entry.title.contains('Rolling in the dough')).get()
+        self.assertEqual(result.id, compare.id)
 
 
     @classmethod
@@ -173,8 +176,8 @@ class DBEditTest(unittest.TestCase):
 
     def test_edit_date(self):
         result = edit_date_query('12/10/2003', 1)
-        compare = Entry.select().where(Entry.id == 1)
-        self.assertEqual(result, compare)
+        compare = Entry.select().where(Entry.id == 1).get()
+        self.assertEqual(result.id, compare.id)
 
     @classmethod
     def tearDownClass(cls):
@@ -245,7 +248,6 @@ class AddRouteTest(unittest.TestCase):
         test_db.drop_tables([Entry])
         cls.test_db.close()
 
-        
 class MainAppTest(unittest.TestCase):
     
     @mock.patch('builtins.input', side_effect=['c'])
