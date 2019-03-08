@@ -45,16 +45,7 @@ def print_entry(entry):
     print(entry.time_spent)
     print(entry.notes)
 
-def invalid_input():
-    print("\nNot a valid option!\n")
-    pause()
-
 def clear_screen():
     os.system("cls" if os.name == "nt" else "clear")
     return None
     
-def pause():
-    """Pause the display until user enters a key and return None"""
-    cmd = "pause" if os.name == "nt" else "read -rsp $'Press any key to continue . . .\n' -n 1 key"
-    os.system(cmd)
-

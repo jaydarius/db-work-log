@@ -9,8 +9,6 @@ from edit_route import edit_entry
 from display import (
     print_entry,
     clear_screen,
-    pause,
-    invalid_input,
     page_menu,
     search_menu
 )                    
@@ -73,7 +71,7 @@ def page_entries(entries):
         elif user_choice == "r":
             break    
         else:
-            invalid_input()
+            input("\nNot a valid option! Press any key to continue...")
 
 def search_entries(get_value, search):
     """Locate matching entries.
@@ -115,6 +113,6 @@ def search_route():
         elif choice == 'f':
             break
         else:
-            invalid_input()
+            input("\nNot a valid option! Press any key to continue...")
 
         clear_screen()

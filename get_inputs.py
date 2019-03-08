@@ -1,7 +1,7 @@
 import os
 from datetime import datetime, timedelta
 
-from display import pause, clear_screen
+from display import clear_screen
 
 
 def get_user():
@@ -15,7 +15,7 @@ def get_user():
             return user
         except NameError as e:
             print(e)
-            pause()
+            input("\nPress any key to continue")
             clear_screen()
             continue
 
@@ -35,7 +35,7 @@ def get_date():
         except ValueError:
             print("\n{} doesn't seem to be a valid date and time."
                   .format(date))
-            pause()
+            input("\nPress any key to continue")
             clear_screen()
             continue
 
@@ -61,7 +61,7 @@ def get_parsed_date(index):
         except ValueError:
             print("\n{} doesn't seem to be a valid date and time."
                   .format(date))
-            pause()
+            input("\nPress any key to continue")
             clear_screen()
             continue
 
@@ -92,7 +92,7 @@ def get_title():
             return title
         except NameError as e:
             print(e)
-            pause()
+            input("\nPress any key to continue")
             clear_screen()
             continue
          
@@ -110,7 +110,7 @@ def get_time():
         except ValueError:
             print("\n{} doesn't seem to be a valid number."
                   .format(time_spent))
-            pause()
+            input("\nPress any key to continue")
             clear_screen()
             continue
 
@@ -134,11 +134,6 @@ def get_keyword():
             return keyword
         except NameError as e:
             print(e)
-            pause()
+            input("\nPress any key to continue")
             clear_screen()
             continue
-
-
-# Testing!
-if __name__ == "__main__":
-    get_date_range()

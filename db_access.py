@@ -97,6 +97,7 @@ def edit_notes_query(new_value, entry_id):
 def del_entry(user_id):
     q = Entry.get(Entry.id == user_id)
     q.delete_instance()
+    return None
 
 #TESTING!
 

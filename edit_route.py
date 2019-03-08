@@ -1,10 +1,8 @@
 from db_config import Entry
 from display import (
-    pause,
     clear_screen,
     edit_menu, 
     search_menu, 
-    invalid_input,
     print_entry
 )
 from get_inputs import (
@@ -68,4 +66,4 @@ def edit_entry(entry, entry_id):
         elif edit_choice.lower() == "e":
             break
         else:
-            invalid_input()
+            input("\nNot a valid option! Press any key to continue...")

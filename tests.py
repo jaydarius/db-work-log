@@ -45,7 +45,12 @@ class GetInputsTest(unittest.TestCase):
     
 
     @mock.patch('builtins.input', side_effect=['jay'])
-    def test_get_user_jay(self, mock_input):
+    def test_get_user(self, mock_input):
+        result = get_user()
+        self.assertEqual(result, 'jay')
+
+    @mock.patch('builtins.input', side_effect=['','p','jay'])
+    def test_get_user_catch_error(self, mock_input):
         result = get_user()
         self.assertEqual(result, 'jay')
 
@@ -54,8 +59,29 @@ class GetInputsTest(unittest.TestCase):
         result = get_date()
         self.assertEqual(result, '12/12/2004')
 
+    @mock.patch('builtins.input', side_effect=['', 'p', '12/12/2004'])
+    def test_get_date_catch_error(self, mock_input):
+        result = get_date()
+        self.assertEqual(result, '12/12/2004')
+
+
+    @mock.patch('builtins.input', side_effect=['11/11/2009'])
+    def test_get_parsed_date(self, mock_input):
+        result = get_parsed_date("first")
+        self.assertEqual(result, datetime(2009, 11, 11, 0, 0))
+    
+    @mock.patch('builtins.input', side_effect=['', 'p', '11/11/2009'])
+    def test_get_parsed_date_catch_error(self, mock_input):
+        result = get_parsed_date("first")
+        self.assertEqual(result, datetime(2009, 11, 11, 0, 0))
+
     @mock.patch('builtins.input', side_effect=['Sim Title'])
     def test_get_title(self, mock_input):
+        result = get_title()
+        self.assertEqual(result, 'Sim Title')
+
+    @mock.patch('builtins.input', side_effect=['', 'p', 'Sim Title'])
+    def test_get_title_catch_error(self, mock_input):
         result = get_title()
         self.assertEqual(result, 'Sim Title')
     
@@ -63,7 +89,12 @@ class GetInputsTest(unittest.TestCase):
     def test_get_time(self, mock_input):
         result = get_time()
         self.assertEqual(result, 40)
-    
+
+    @mock.patch('builtins.input', side_effect=['', 'p', '40'])
+    def test_get_time_catch_error(self, mock_input):
+        result = get_time()
+        self.assertEqual(result, 40)
+
     @mock.patch('builtins.input', side_effect=['Sim Notes'])
     def test_get_notes(self, mock_input):
         result = get_notes()
@@ -74,10 +105,10 @@ class GetInputsTest(unittest.TestCase):
         result = get_keyword()
         self.assertEqual(result, 'Sim Keyword')
 
-    @mock.patch('builtins.input', side_effect=['11/11/2009'])
-    def test_get_parsed_date(self, mock_input):
-        result = get_parsed_date("first")
-        self.assertEqual(result, datetime(2009, 11, 11, 0, 0))
+    @mock.patch('builtins.input', side_effect=['', 'p', 'Sim Keyword'])
+    def test_get_keyword_catch_error(self, mock_input):
+        result = get_keyword()
+        self.assertEqual(result, 'Sim Keyword')
 
     @mock.patch('builtins.input', side_effect=['11/11/2009', '13/11/2009'])
     def test_get_date_range(self, mock_input):
@@ -121,6 +152,14 @@ class DisplayTest(unittest.TestCase):
         result = page_menu(1, ["entry1" , "entry2"])
         self.assertEqual(result, "[B]ack, [E]dit, [D]elete, [R]eturn to Search Menu")
 
+    def test_page_menu_at_begin(self):
+        result = page_menu(0, ["entry1" , "entry2"])
+        self.assertEqual(result, "[N]ext, [E]dit, [D]elete, [R]eturn to Search Menu")
+
+    def test_page_menu_at_mid(self):
+        result = page_menu(1, ["entry1" , "entry2", "entry3"])
+        self.assertEqual(result, "[N]ext, [B]ack, [E]dit, [D]elete, [R]eturn to Search Menu")
+
     def test_clear_screen(self):
         result = clear_screen()
         self.assertEqual(result, None)
@@ -141,22 +180,22 @@ class EditRouteTest(unittest.TestCase):
             title='Building additional pylons',
             time_spent=32,
             notes='' 
-    )
+        )
+
+        cls.entry = Entry.select().where(Entry.user.contains('Jay')).get()
+        cls.entry_id = cls.entry.id
 
     @mock.patch('builtins.input', side_effect=['Rolling in the dough', 'a'])
     def test_edit_value(self, mock_input): 
-        entry = Entry.select().where(Entry.user.contains('Jay')).get()
-        entry_id = entry.id
-        result = edit_value(entry_id, 'Title', get_title, edit_title_query)
+
+        result = edit_value(self.entry_id, 'Title', get_title, edit_title_query)
         compare = Entry.select().where(Entry.title.contains('Rolling in the dough')).get()
         self.assertEqual(result.id, compare.id)
     
        
     @mock.patch('builtins.input', side_effect=['e'])
     def test_edit_entry_quit(self, mock_input):
-        entry = Entry.select().where(Entry.user.contains('Jay')).get()
-        entry_id = entry.id
-        result = edit_entry(entry, entry_id)
+        result = edit_entry(self.entry, self.entry_id)
         self.assertEqual(result, None)
     
 
@@ -199,6 +238,36 @@ class DBEditTest(unittest.TestCase):
         compare = Entry.select().where(Entry.id == 1).get()
         self.assertEqual(result.id, compare.id)        
 
+
+    
+
+    @classmethod
+    def tearDownClass(cls):
+        test_db.drop_tables([Entry])
+        cls.test_db.close()
+
+class DBDeleteTest(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_db = SqliteDatabase(":memory:")
+        test_db.bind_ctx(Entry)
+
+        cls.test_db.connect()
+        test_db.create_tables([Entry], safe=True)
+
+        Entry.create(
+            user='Jay',
+            date='12/12/2002',
+            title='Building additional pylons',
+            time_spent=32,
+            notes='' 
+    )
+
+    def test_del_entry(self):
+        result = del_entry(1)
+        self.assertEqual(result, None)
+
     @classmethod
     def tearDownClass(cls):
         test_db.drop_tables([Entry])
@@ -224,6 +293,11 @@ class DBSearchTest(unittest.TestCase):
 
     def test_date_search(self):
         result = date_search('12/12/2002')
+        compare = Entry.select().where(Entry.date.contains('12/12/2002'))
+        self.assertEqual(len(result), len(compare))
+
+    def test_date_list_search(self):
+        result = date_search(['12/12/2002', '13/12/2002', '14/12/2002'])
         compare = Entry.select().where(Entry.date.contains('12/12/2002'))
         self.assertEqual(len(result), len(compare))
 

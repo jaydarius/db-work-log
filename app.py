@@ -6,9 +6,7 @@ from peewee import *
 
 from db_config import Entry, db, initialize
 from display import (
-    clear_screen, 
-    invalid_input,
-    pause
+    clear_screen
 )
 from search_route import search_route
 from add_route import add_route

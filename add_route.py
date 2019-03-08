@@ -7,7 +7,7 @@ from get_inputs import (
     get_keyword, 
     )
 
-from display import clear_screen, pause
+from display import clear_screen
 from db_config import Entry
 
 
