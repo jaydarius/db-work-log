@@ -3,21 +3,13 @@ from datetime import datetime, timedelta
 
 from display import clear_screen
 
-
 def get_user():
-    while True:
-        try: 
-            print("Employee name\n")
-            user = input("> ")
-            if len(user) == 0:
-                raise NameError("Please enter a valid name.")
-            clear_screen()
-            return user
-        except NameError as e:
-            print(e)
-            input("\nPress any key to continue")
-            clear_screen()
-            continue
+    print("Employee name\n")
+    user = input("> ")
+    if len(user) == 0:
+        raise NameError("Please enter a valid name.")
+    clear_screen()
+    return user
 
 def get_date():
     """Ask the user to add date and return it in a string"""

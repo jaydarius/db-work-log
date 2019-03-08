@@ -10,6 +10,14 @@ from get_inputs import (
 from display import clear_screen
 from db_config import Entry
 
+def radd_route():
+    try:
+        get_user
+    except NameError as e:
+        print(e)
+        input("\nPress any key to continue")
+        clear_screen()
+        continue
 
 def add_route():
     """Add an entry"""
