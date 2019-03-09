@@ -5,5 +5,5 @@ This program will prompt the user to create entries into a work log and store th
 # How to Run
 Run app.py in a terminal
 
-#How to Test
+# How to Test
 Run tests.py in a terminal
