@@ -23,7 +23,7 @@ def menu_loop():
 
     while choice !='c':
         clear_screen()
-        print("== WORK LOG==\n")
+        print("== WORK LOG ==\n")
         for key, value in menu.items():
             print("{}) {}".format(key, value.__doc__))
         print("c) Quit")

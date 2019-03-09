@@ -39,6 +39,8 @@ def page_menu(index, records):
 
 
 def print_entry(entry):
+    """Print an entry's columns"""
+    
     print(entry.user)
     print(entry.date)
     print(entry.title)

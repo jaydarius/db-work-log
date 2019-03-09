@@ -63,9 +63,9 @@ def time_search(search):
     return entries
 
 def edit_date_query(new_value, entry_id):
-    """Update a row's column with a new value.
+    """Update a row's date column with a new value.
 
-    :param new_value: string that is date
+    :param new_value: string that is date format
     :param entry_id: entry's primary key
     :return: edited entry
     """
@@ -75,6 +75,12 @@ def edit_date_query(new_value, entry_id):
     return Entry.select().where(Entry.id == entry_id).get()
 
 def edit_title_query(new_value, entry_id):
+    """Update a row's title column with a new value.
+
+    :param new_value: string
+    :param entry_id: entry's primary key
+    :return: edited entry
+    """
     q = Entry.update(title=new_value).where(
             Entry.id == entry_id
         ).execute()
@@ -82,24 +88,36 @@ def edit_title_query(new_value, entry_id):
 
 
 def edit_time_query(new_value, entry_id):
-    
+    """Update a row's time_spent column with a new value.
+
+    :param new_value: int
+    :param entry_id: entry's primary key
+    :return: edited entry
+    """
     q = Entry.update(time_spent=new_value).where(
                 Entry.id == entry_id
             ).execute()
     return Entry.select().where(Entry.id == entry_id).get()
 
 def edit_notes_query(new_value, entry_id):
+    """Update a row's ntoes column with a new value.
+
+    :param new_value: string
+    :param entry_id: entry's primary key
+    :return: edited entry
+    """
     q = Entry.update(notes=new_value).where(
                 Entry.id == entry_id
             ).execute()
     return Entry.select().where(Entry.id == entry_id).get()
 
 def del_entry(user_id):
+    """Delte a row
+
+    :param user_id: selected entry's primary key
+    :return: None
+    """
     q = Entry.get(Entry.id == user_id)
     q.delete_instance()
     return None
 
-#TESTING!
-
-if __name__ == "__main__":
-    pass
