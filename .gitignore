@@ -23,3 +23,5 @@ htmlcov/style.css
 __pycache__/display.cpython-37.pyc
 tests_pg.py
 junk/refactor.py
+work-log.db
+work-log.db

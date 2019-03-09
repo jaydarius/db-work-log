@@ -26,7 +26,7 @@ def date_search(search):
         
 
 def user_search(search):
-    """Search the DB for all entries that match a date.
+    """Search the DB for all entries that match user.
 
     :param search: a string containing user's search criteria
     :return: a list of the found entries
@@ -36,6 +36,7 @@ def user_search(search):
             Entry.user.contains(search)
         )
     return entries
+
 
 def keyword_search(search):
     """Search the DB for all entries that match keyword.

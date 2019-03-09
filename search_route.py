@@ -48,14 +48,14 @@ def page_entries(entries):
         if user_choice == "n":
             if index == (len(entries) - 1):
                 print("\nCan't go forward!\n")
-                pause()
+                input("Press any key to continue...")
             else:
                 index += 1
             continue
         elif user_choice == "b":
             if index < 1:
                 print("\nCan't go back!\n")
-                pause()
+                input("Press any key to continue...")
             else:
                 index -= 1
             continue
@@ -65,8 +65,8 @@ def page_entries(entries):
         elif user_choice == "d":
             del_entry(entry_id)
             clear_screen()
-            print("""Entry has been deleted!\n""")      
-            pause()
+            print("Entry has been deleted!\n")      
+            input("Press any key to continue...")
             break
         elif user_choice == "r":
             break    
@@ -88,6 +88,21 @@ def search_entries(get_value, search):
     else:
         page_entries(entries)
 
+def search_employees():
+    user = get_user()
+    entry_list = user_search(user)
+
+    if not entry_list:
+        print("Not found!\n")
+        input("Press any key to continue... ")
+    else:
+        print("The below employees match your search:")
+        for entry in entry_list:
+            print(entry.user)
+        input("\nPlease type the full name to grab their entries!"
+            "\nPress any key to continue...\n")
+    return None   
+
 def search_route():
     """Search for record(s)"""
     searching = True
@@ -107,6 +122,7 @@ def search_route():
         elif choice == 'c':
             search_entries(get_keyword, keyword_search)
         elif choice == 'd':
+            search_employees()
             search_entries(get_user, user_search)
         elif choice == 'e':
             search_entries(get_time, time_search)

@@ -9,7 +9,7 @@ import app
 from app import menu_loop
 from db_config import Entry, initialize
 from add_route import add_route
-from search_route import search_route, search_entries
+from search_route import search_route, search_entries, search_employees
 from get_inputs import (
     get_user,
     get_date, 
@@ -340,6 +340,29 @@ class AddRouteTest(unittest.TestCase):
     def tearDownClass(cls):
         test_db.drop_tables([Entry])
         cls.test_db.close()
+
+class SearchRouteTest(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_db = SqliteDatabase(":memory:")
+        test_db.bind_ctx(Entry)
+
+        cls.test_db.connect()
+        test_db.create_tables([Entry], safe=True)
+
+        Entry.create(
+            user='Jay',
+            date='12/12/2002',
+            title='Building additional pylons',
+            time_spent=32,
+            notes='' 
+    )
+
+    @mock.patch('builtins.input', side_effect=['Jay', 'a'])
+    def test_search_employees(self, mock_input):
+        result = search_employees()
+        self.assertEqual(result, None)
 
 class MainAppTest(unittest.TestCase):
     
