@@ -84,7 +84,7 @@ def search_entries(get_value, search):
    
     if not entries:
         print("Not found!\n")
-        pause()
+        input("Press any ket to continue... ")
     else:
         page_entries(entries)
 
