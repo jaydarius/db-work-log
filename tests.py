@@ -331,11 +331,10 @@ class AddRouteTest(unittest.TestCase):
         cls.test_db.connect()
         test_db.create_tables([Entry], safe=True)
 
-    @mock.patch('builtins.input', side_effect=['Jay', '11/11/2009','Reading', 64, 'Drank some water!'])
+    @mock.patch('builtins.input', side_effect=['Jay', '11/11/2009','Reading', 64, 'Drank some water!', 'A'])
     def test_add_route(self, mock_input):
         result = add_route()
-        self.assertEqual(result, "The entry has been added!\n")
-    
+        self.assertEqual(result, None)
     
     @classmethod
     def tearDownClass(cls):

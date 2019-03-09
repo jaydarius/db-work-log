@@ -22,5 +22,6 @@ def add_route():
         notes=get_notes() 
     )
     clear_screen()
-    return ("The entry has been added!\n")
+    input("The entry has been added!\n")
+    return None
 
